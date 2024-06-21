@@ -1,9 +1,8 @@
 "use client"; 
 import {useState} from "react";
-import {useEffect} from "react";
 import DisplayCard from "./DisplayCard";
 import FilterBar from "./FilterBar";
-
+import PageNumber from "./PageNumber"
 
 
 //Use cap locks for first letter component names Ex: ButtonTwo
@@ -23,7 +22,7 @@ const data= [
   {
     name : "Chicken",
     nationality: "Chinese",
-    ingredients: ["Chicken", "Water", "Soy Sauce"],
+    ingredients: ["Chicken ", "Water ", "Soy Sauce"],
     cookTime: 40
   },
 
@@ -97,6 +96,10 @@ const data= [
 const Gallery = () => {
   const [recipies, updateRecipies] = useState(data);
   
+  //State to help know which recipes to show off on each page
+  const [startIndex, updateStartIndex]= useState(0);
+  const [endIndex, updateEndIndex] = useState(1);
+  
   //Display Card for all the Recipees//
   let listRecipes = recipies.map(d=> 
     <DisplayCard recipeName = {d.name} cookTime={d.cookTime}></DisplayCard> 
@@ -111,11 +114,32 @@ const Gallery = () => {
   };
   //---------------------------------//
 
+  //display currpage -1 and current
+  const updateDisplay = (currPageNumber)=>{
+    
+      
+
+      // 1 => 0,1
+      // 2=> 2,3
+      // 3=> 4,5
+      // 4=> 6,7
+      // 5=> 8,9
+      
+      //Formula = currPage*2-2 ,currPage * 2 -1 
+      updateStartIndex((currPageNumber*2)-2);
+      updateEndIndex((currPageNumber*2)-1);
+    
+  };
   
 
   return(
     <>
-        {listRecipes}
+    
+        {listRecipes[startIndex]}
+        {listRecipes[endIndex]}
+        
+        <PageNumber totalPages={5} updateDisplay= {updateDisplay}></PageNumber>
+        <br></br>
         <FilterBar filterRecipe={filterByType}></FilterBar>
 
     </>
