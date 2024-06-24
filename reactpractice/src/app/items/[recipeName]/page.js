@@ -2,6 +2,7 @@
 import { useRouter ,usePathname} from 'next/navigation';
 
 
+
 //Route it any info gets stored
 //when routing need to create seperate folder and put inside is how react works
 //Pathname gets the path of our website and we are splititng it by the char '/' and we get the recipe name
@@ -85,12 +86,15 @@ const DisplayRecipeDetails = () => {
   const pathname = usePathname();
   const segments = pathname.split('/');
   const recipeName = segments[2]; // Assuming the path is /items/[recipeName]
-    
-  const recipie = data.find((item) =>item.name === recipeName);
+  const decodedParameter = decodeURIComponent(recipeName);
+  console.log(decodedParameter);
+  
+  
+  const recipie = data.find((item) =>item.name === decodedParameter);
     return (
         <>  
             
-            <h1>{recipeName}</h1>
+            <h1>{decodedParameter}</h1>
             <h1>{recipie.nationality}</h1>
             <p>{recipie.ingredients}</p>
             <h1>{recipie.cookTime}</h1>
